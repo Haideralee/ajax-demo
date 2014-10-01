@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>25-09-2014</title>
+    <link href="css/css.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <script src="scripts/jquery-2.1.1.js" ></script>
+</head>
+<body>
+    <div class="site_wrapper">
+        <header>
+            <h1>This is a Header</h1>
+            <nav>
+                <ul class="nav_ul">
+                    <li><button class="home_nav active" type="button" data-url="home.html">Home</button></li>
+                    <li><button class="about_nav" type="button" data-url="about.html">About Us</button></li>
+                    <li><button class="services_nav" type="button" data-url="services.html">Services</button></li>
+                    <li><button class="contact_nav" type="button" data-url="contact.html">Contact Us</button></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="page_content_wrapper">
+            <div class="page_content"></div>
+        </div>
+        <footer>
+            <h4>This is a Footer</h4>
+        </footer>
+    </div>
+
+    <script>
+        //Events
+
+        $('.home_nav').on('click', getPageContent);
+        $('.about_nav').on('click', getPageContent);
+        $('.services_nav').on('click', getPageContent);
+        $('.contact_nav').on('click', getPageContent);
+
+        $.get('home.html', function(template){
+            showTemplate(null, template);
+        });
+
+        //create constructure
+
+        function getPageContent(){
+            var _self = this;
+            var url = $(_self).data('url');
+
+            $.get(url, function(template){
+                showTemplate(_self, template);
+
+            });
+
+        }
+
+        function getHomePage(){
+            var _self = this;
+
+            $.get('home.html', function(template){
+                showTemplate(_self, template);
+
+            });
+        }
+
+        function showTemplate(_self, template){
+
+            _self && $(_self).addClass('active')
+                        .closest('li')
+                        .siblings('li')
+                        .children('button')
+                        .removeClass('active');
+
+            $('.page_content').empty().hide().append(template).fadeIn();
+        }
+    </script>
+</body>
+</html>
